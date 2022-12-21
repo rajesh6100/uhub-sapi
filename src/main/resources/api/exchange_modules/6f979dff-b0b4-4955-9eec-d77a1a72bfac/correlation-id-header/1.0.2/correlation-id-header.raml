@@ -1,0 +1,7 @@
+#%RAML 1.0 Trait
+usage: Apply this trait to ensure API consumers to send their own correlation-id for tracking end-to-end transaction. Mule will use its own tranaction-id header but consumer can correlate their own correlation-id to mule transactio-id
+headers:
+  x-correlation-id:
+        type: string
+        description: Transaction id to maintain over API
+        required: false
