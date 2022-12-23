@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 			<db:sql><![CDATA[select case_id, Source, case_type, first_name, last_name, phone, email, date_of_birth, national_id, national_id_type, street_address, city, state, postal, country, create_date, update_date from cvd_case_master where national_id = :national_id]]></db:sql>
 			<db:input-parameters><![CDATA[#[{national_id: vars.nationalID}]]]></db:input-parameters>
 		</db:select>
-		<logger level="DEBUG" doc:name="End Log" doc:id="6b76f6ef-2177-47c1-9817-b64454824d74" message='transactionID: #[vars.transactionId], correlationID: #[vars.correlationId], message: "Completed fetch case by national id database calls"' />
+		<logger level="DEBUG" doc:name="End Log" doc:id="6b76f6ef-2177-47c1-9817-b64454824d74" message='transactionID: #[vars.transactionId], correlationID: #[vars.correlationId], message: "Completed fetch case by national id database call"' />
 	</sub-flow>
 	<sub-flow name="fetch-case-reports-sub-flow" doc:id="80045ed1-d79d-484b-bd83-5e0985ce693b" >
 		<logger level="DEBUG" doc:name="Start Log" doc:id="709a74b3-b22e-4928-81b3-5c4ffcade9eb" message='transactionID: #[vars.transactionId]], correlationID: #[vars.correlationID], message: "Before fetching case reports database call"'/>
