@@ -1,0 +1,9 @@
+http:
+  port: "8082"
+
+database:
+    host: "rajeshdb.ckuunkioksyr.us-east-1.rds.amazonaws.com"
+    port: "3306"
+    user: "admin"
+    password: "![UxFs0A73pboqeMPQLMcj5A==]"
+    database: "rajeshdb"

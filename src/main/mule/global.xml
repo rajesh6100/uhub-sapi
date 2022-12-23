@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<http:listener-config name="uhub-sapi-httpListenerConfiguration" basePath="covid">
+        <http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+    </http:listener-config>
+    <apikit:config name="uhub-sapi-config" api="uhub-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus">
+		<apikit:flow-mappings>
+			<apikit:flow-mapping resource="/registerCase" action="post" content-type="application/json" flow-ref="post:\registerCase:application\json:uhub-sapi-configuration" />
+			<apikit:flow-mapping resource="/updateCase" action="put" content-type="application/json" flow-ref="put:\updateCase:application\json:uhub-sapi-configuration" />
+			<apikit:flow-mapping resource="/{nationalID}" action="get" flow-ref="get:\(nationalID):uhub-sapi-configuration" />
+			<apikit:flow-mapping resource="/getReports" action="get" flow-ref="get:\getReports:uhub-sapi-configuration" />
+			<apikit:flow-mapping resource="/health-check" action="get" flow-ref="get:\health-check:uhub-sapi-configuration" />
+		</apikit:flow-mappings>
+	</apikit:config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="e863cfe2-0968-4a3b-9ddb-9a4458c2b249" file="${env}.yaml" key="${enc.key}"/>
+	<db:config name="Uhub_Database_Config" doc:name="Database Config" doc:id="b7086077-9431-40a7-9d89-ba8e9650130b" >
+		<db:my-sql-connection host="${secure::database.host}" port="${secure::database.port}" user="${secure::database.user}" password="${secure::database.password}" database="${secure::database.database}" />
+	</db:config>
+	<api-gateway:autodiscovery ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3dcc58ba-1847-49f6-9bcf-7613205e98f5" flowRef="uhub-sapi-main" apiId="${api.id}"/>
+    
+</mule>
