@@ -1,5 +1,5 @@
 http:
-  port: "8082"
+  port: "8081"
 
 database:
     host: "rajeshdb.ckuunkioksyr.us-east-1.rds.amazonaws.com"
